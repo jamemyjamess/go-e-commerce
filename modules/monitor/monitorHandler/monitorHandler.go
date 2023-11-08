@@ -4,6 +4,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/jamemyjamess/go-e-commerce/config"
 	"github.com/jamemyjamess/go-e-commerce/modules/monitor/entities"
+	"github.com/jamemyjamess/go-e-commerce/pkg/response"
 )
 
 type IMonitorHandler interface {
@@ -23,5 +24,5 @@ func (m *MonitorHandler) CheckServer(c *fiber.Ctx) error {
 		Name:    (*m.cfgApp).Name(),
 		Version: (*m.cfgApp).Version(),
 	}
-	return c.Status(fiber.StatusOK).JSON(res)
+	return response.NewResponse(c).Success(fiber.StatusOK, res).Res()
 }
