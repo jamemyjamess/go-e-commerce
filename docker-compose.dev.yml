@@ -1,0 +1,8 @@
+services:
+  e-commerce-go-gin-service:
+    image: e-commerce-go-gin-service-image # declare image name (docker build -t e-commerce-go-gin-service)
+    build: 
+      context: .
+      dockerfile: Dockerfile.dev
+      target: dev
+    PORT 

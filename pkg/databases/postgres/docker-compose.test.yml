@@ -1,0 +1,21 @@
+version: "3.8"
+
+
+services:
+  e-commerce-postgres-db-service:
+    # images: 
+    # container: e-commerce-postgres-db-container
+    build:
+      context: .
+      # args: // varaible use buildtime not is a variable (ENV variable) on runtime
+      dockerfile: Dockerfile
+      target: e-commerce-postgres-db
+    volumes:
+      - ./postgres-data:/var/lib/postgres/data  # relative to host directory: relative to container directory
+    environment:
+      - POSTGRES_USER = ${POSTGRES_USER}
+      - POSTGRES_PASSWORD = ${POSTGRES_PASSWORD}
+    env_file:
+      - ./.env.test # environment variable on container runtime
+    ports:
+      - 5432:5432    # host port (pubplic for e-commerce-postgres): container port

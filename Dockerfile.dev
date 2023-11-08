@@ -1,0 +1,25 @@
+FROM golang:1.21.3 AS dev
+
+# create and execute on this dir /app
+WORKDIR /app  
+
+# use air for live reloading in development
+RUN go install github.com/cosmtrek/air@latest
+
+# copy the current directory on the host machine to the /app directory in the Docker container
+# COPY . .
+
+# Copy the hidden files and directories in the current directory on the host machine to the Docker container.
+COPY . ./
+
+# go build out out 
+RUN CGO_ENABLED=0 go build -o /bin/app
+
+# execute /bin/app ./.env.dev
+ENTRYPOINT ["/bin/app", "./.env.dev"]
+# .env.dev environment for building time in docker-compose it knows environment value and cau use like this 
+# .env.dev EXAMPLE = "something"
+# docker-compose MODE = ${EXAMPLE}
+
+# may be unnecessary to use multi stage build for reduce size of container in development process
+# becuase we need more running speed than size of container 
