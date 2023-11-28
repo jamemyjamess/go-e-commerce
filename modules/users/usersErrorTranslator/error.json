@@ -1,0 +1,18 @@
+{
+  "test error in user module": {
+    "module": "test-error",
+    "default_error_msg": "test error in user module",
+    "languages_translator": {
+      "th": "ทดสอบการใช้ error ใน user module",
+      "en": "Test using errors in the user module",
+      "fr": "Test en utilisant les erreurs dans le module utilisateur"
+    }
+  },
+  "ERROR: duplicate key value violates unique constraint \"users_email_key\" (SQLSTATE 23505)": {
+    "module": "user",
+    "languages_translator": {
+      "th": "อีเมลถูกใช้งานแล้ว",
+      "en": "Email has been used"
+    }
+  }
+}

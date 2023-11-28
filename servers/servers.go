@@ -1,6 +1,10 @@
 package servers
 
 import (
+	"log"
+	"os"
+	"os/signal"
+
 	"github.com/goccy/go-json"
 	"github.com/gofiber/fiber/v2"
 	"github.com/jamemyjamess/go-e-commerce/config"
@@ -36,5 +40,20 @@ func NewServer(cfg *config.IConfig, db *sqlx.DB) IServer {
 func (s *Server) Start() {
 	apiV1 := s.app.Group("/api/v1")
 	cfgApp := (*s.cfg).App()
-	modules.NewModuleFactory(&apiV1, &cfgApp)
+	modules := modules.NewModuleFactory(&apiV1, &cfgApp)
+	modules.MonitorModule().InitRoutes()
+	modules.UserModule().InitRoutes()
+	modules.UserModule().InitError()
+
+	// Graceful Shutdown
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Interrupt)
+	go func() {
+		_ = <-c
+		log.Println("server is shutting down...")
+		_ = s.app.Shutdown()
+	}()
+	log.Printf("server is starting on %v", (*s.cfg).App().URL())
+
+	s.app.Listen((*s.cfg).App().URL())
 }

@@ -1,0 +1,17 @@
+{
+  "ERROR: duplicate key value violates unique constraint \"users_username_key\" (SQLSTATE 23505)": {
+    "module": "default",
+    "languages_translator": {
+      "th": "ชื่อผู้ใช้งานถูกใช้งานแล้ว",
+      "en": "Username has been used",
+      "fr": "Nom d'utilisateur déjà utilisé"
+    }
+  },
+  "ERROR: duplicate key value violates unique constraint \"users_email_key\" (SQLSTATE 23505)": {
+    "module": "user",
+    "languages_translator": {
+      "th": "อีเมลถูกใช้งานแล้ว",
+      "en": "Email has been used"
+    }
+  }
+}
