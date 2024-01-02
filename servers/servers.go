@@ -8,6 +8,9 @@ import (
 	"github.com/goccy/go-json"
 	"github.com/gofiber/fiber/v2"
 	"github.com/jamemyjamess/go-e-commerce/config"
+	"github.com/jamemyjamess/go-e-commerce/middlewares/middlewaresHandlers"
+	"github.com/jamemyjamess/go-e-commerce/middlewares/middlewaresRepositories"
+	"github.com/jamemyjamess/go-e-commerce/middlewares/middlewaresUsecases"
 	"github.com/jamemyjamess/go-e-commerce/modules"
 
 	"github.com/jmoiron/sqlx"
@@ -37,13 +40,25 @@ func NewServer(cfg *config.IConfig, db *sqlx.DB) IServer {
 	}
 }
 
+func initMiddlewares(s *Server) middlewaresHandlers.IMiddlewareHandlers {
+	repository := middlewaresRepositories.MiddlewaresRepository(s.db)
+	usecase := middlewaresUsecases.MiddlewaresUsecase(repository)
+	return middlewaresHandlers.MiddlewaresHandlers(*s.cfg, usecase)
+}
 func (s *Server) Start() {
+	// Middlewares
+	middleware := initMiddlewares(s)
+	s.app.Use(middleware.CORS())
+
 	apiV1 := s.app.Group("/api/v1")
 	// cfg := *s.cfg
-	modules := modules.NewModuleFactory(&apiV1, s.cfg, s.db)
+	modules := modules.NewModuleFactory(&apiV1, s.cfg, middleware, s.db)
 	modules.MonitorModule().InitRoutes()
 	modules.UserModule().InitRoutes()
 	modules.UserModule().InitError()
+
+	// Router is not founded
+	s.app.Use(middleware.RouterNorFoundInfo())
 
 	// Graceful Shutdown
 	c := make(chan os.Signal, 1)
