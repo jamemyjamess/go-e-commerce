@@ -15,7 +15,7 @@ type MonitorHandler struct {
 	cfgApp *config.IAppConfig
 }
 
-func NewMonitorHandler(r *fiber.Router, cfgApp *config.IAppConfig) IMonitorHandler {
+func NewMonitorHandler(cfgApp *config.IAppConfig) IMonitorHandler {
 	return &MonitorHandler{cfgApp: cfgApp}
 }
 

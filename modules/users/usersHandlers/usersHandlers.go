@@ -2,6 +2,7 @@ package usersHandlers
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/jamemyjamess/go-e-commerce/modules/users/usersUsecase"
 	"github.com/jamemyjamess/go-e-commerce/pkg/response"
 )
 
@@ -9,11 +10,14 @@ type IUserHandler interface {
 	SignIn(c *fiber.Ctx) error
 }
 
-func NewUsersHandler() IUserHandler {
-	return &userHandler{}
+type userHandler struct {
+	usersUsecase *usersUsecase.IUsersUsecase
 }
 
-type userHandler struct {
+func NewUsersHandler(u *usersUsecase.IUsersUsecase) IUserHandler {
+	return &userHandler{
+		usersUsecase: u,
+	}
 }
 
 func (u *userHandler) SignIn(c *fiber.Ctx) error {

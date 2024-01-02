@@ -39,8 +39,8 @@ func NewServer(cfg *config.IConfig, db *sqlx.DB) IServer {
 
 func (s *Server) Start() {
 	apiV1 := s.app.Group("/api/v1")
-	cfgApp := (*s.cfg).App()
-	modules := modules.NewModuleFactory(&apiV1, &cfgApp)
+	// cfg := *s.cfg
+	modules := modules.NewModuleFactory(&apiV1, s.cfg, s.db)
 	modules.MonitorModule().InitRoutes()
 	modules.UserModule().InitRoutes()
 	modules.UserModule().InitError()
