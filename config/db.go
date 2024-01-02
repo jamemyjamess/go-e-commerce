@@ -10,7 +10,7 @@ type IDbConfig interface {
 type db struct {
 	host           string
 	port           int
-	protocal       string
+	protocol       string
 	username       string
 	password       string
 	database       string

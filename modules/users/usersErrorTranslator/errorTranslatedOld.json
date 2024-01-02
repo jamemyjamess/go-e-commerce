@@ -1,0 +1,23 @@
+{
+    "error_translator": [
+      {
+        "module": "test-error",
+        "default_error_msg": "test error in user module",
+        "languages": {
+          "th": "ทดสอบการใช้ error ใน user module",
+          "en": "Test using errors in the user module",
+          "fr": "Test en utilisant les erreurs dans le module utilisateur"
+        }
+      },
+      {
+        "module": "user",
+        "default_error_msg": "ERROR: duplicate key value violates unique constraint \"users_username_key\" (SQLSTATE 23505)",
+        "languages": {
+          "th": "ชื่อผู้ใช้งานถูกใช้งานแล้ว",
+          "en": "Username has been used",
+          "fr": "Nom d'utilisateur déjà utilisé"
+        }
+      }
+    ]
+  }
+  

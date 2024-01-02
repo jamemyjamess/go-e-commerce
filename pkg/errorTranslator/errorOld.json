@@ -1,0 +1,13 @@
+{
+  "error_translator": [
+    {
+      "module": "default",
+      "default_error_msg": "ERROR: duplicate key value violates unique constraint \"users_username_key\" (SQLSTATE 23505)",
+      "languages": {
+        "th": "ชื่อผู้ใช้งานถูกใช้งานแล้ว",
+        "en": "Username has been used",
+        "fr": "Nom d'utilisateur déjà utilisé"
+      }
+    }
+  ]
+}
