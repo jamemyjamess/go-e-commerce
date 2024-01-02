@@ -15,7 +15,8 @@ type monitorModule struct {
 }
 
 func (m *ModuleFactory) MonitorModule() IMonitorModule {
-	monitorHandler := monitorHandler.NewMonitorHandler(m.r, m.cfgApp)
+	appConfig := (*m.cfg).App()
+	monitorHandler := monitorHandler.NewMonitorHandler(&appConfig)
 	return &monitorModule{
 		ModuleFactory: m,
 		handler:       monitorHandler,

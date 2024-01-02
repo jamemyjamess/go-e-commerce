@@ -3,6 +3,8 @@ package modules
 import (
 	userErrorTranslator "github.com/jamemyjamess/go-e-commerce/modules/users/usersErrorTranslator"
 	"github.com/jamemyjamess/go-e-commerce/modules/users/usersHandlers"
+	"github.com/jamemyjamess/go-e-commerce/modules/users/usersRepositories"
+	"github.com/jamemyjamess/go-e-commerce/modules/users/usersUsecase"
 )
 
 type IUserModule interface {
@@ -11,7 +13,9 @@ type IUserModule interface {
 }
 
 func (m *ModuleFactory) UserModule() IUserModule {
-	usersHandlers := usersHandlers.NewUsersHandler()
+	usersRepository := usersRepositories.NewUsersRepository((*&m.postgresDb))
+	usersUseCase := usersUsecase.NewUsersUsecase(&usersRepository)
+	usersHandlers := usersHandlers.NewUsersHandler(&usersUseCase)
 	return &userModule{
 		ModuleFactory: m,
 		handler:       usersHandlers,

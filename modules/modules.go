@@ -4,6 +4,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/jamemyjamess/go-e-commerce/config"
 	"github.com/jamemyjamess/go-e-commerce/pkg/errorTranslator"
+	"github.com/jmoiron/sqlx"
 )
 
 type IModuleFactory interface {
@@ -12,15 +13,17 @@ type IModuleFactory interface {
 }
 
 type ModuleFactory struct {
-	r        *fiber.Router
-	cfgApp   *config.IAppConfig
-	errTrans *errorTranslator.IErrorTranslator
+	// s        *servers.IServer
+	r          *fiber.Router
+	cfg        *config.IConfig
+	postgresDb *sqlx.DB
+	errTrans   *errorTranslator.IErrorTranslator
 }
 
-func NewModuleFactory(r *fiber.Router, cfgApp *config.IAppConfig) IModuleFactory {
+func NewModuleFactory(r *fiber.Router, cfg *config.IConfig, postgresDb *sqlx.DB) IModuleFactory {
 	errTrans := errorTranslator.NewErrorTranslator()
 	errTrans.InitDefaultTranslator()
-	return &ModuleFactory{r: r, cfgApp: cfgApp, errTrans: &errTrans}
+	return &ModuleFactory{r: r, cfg: cfg, postgresDb: postgresDb, errTrans: &errTrans}
 }
 
 // func (m *ModuleFactory) MonitorModule() {
