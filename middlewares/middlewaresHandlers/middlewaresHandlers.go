@@ -3,6 +3,7 @@ package middlewaresHandlers
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/jamemyjamess/go-e-commerce/config"
 	middlewaresEntities "github.com/jamemyjamess/go-e-commerce/middlewares/entities"
 	"github.com/jamemyjamess/go-e-commerce/middlewares/middlewaresUsecases"
@@ -12,6 +13,7 @@ import (
 type IMiddlewareHandlers interface {
 	CORS() fiber.Handler
 	RouterNorFoundInfo() fiber.Handler
+	Logger() fiber.Handler
 }
 
 type middlewaresHandlers struct {
@@ -46,4 +48,12 @@ func (h *middlewaresHandlers) RouterNorFoundInfo() fiber.Handler {
 			"router not fount",
 		).Res()
 	}
+}
+
+func (h *middlewaresHandlers) Logger() fiber.Handler {
+	return logger.New(logger.Config{
+		Format:     "${time} [${ip} ${status} - ${method} ${path}]",
+		TimeFormat: "01/02/2006",
+		TimeZone:   "Bangkok/Asia",
+	})
 }

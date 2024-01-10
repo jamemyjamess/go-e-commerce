@@ -48,6 +48,7 @@ func initMiddlewares(s *Server) middlewaresHandlers.IMiddlewareHandlers {
 func (s *Server) Start() {
 	// Middlewares
 	middleware := initMiddlewares(s)
+	s.app.Use(middleware.Logger())
 	s.app.Use(middleware.CORS())
 
 	apiV1 := s.app.Group("/api/v1")
